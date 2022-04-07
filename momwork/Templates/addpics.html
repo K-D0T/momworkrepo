@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+<form id="MainForm" action="{% url 'submitpics' %}" enctype='multipart/form-data' method="post">
+  <div class="d-flex flex-wrap">
+    {% csrf_token %}
+    <label class="p-3" for="{{ form.pic.id_for_label }}" style="font-family:serif"><b>Image</b></label>
+    {{ form.pic }}
+    <button type="signup" class="btn mx-auto m-3" style="font-family:serif">Submit</button>
+  </div>
+</form>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="d-flex flex-wrap flex-row justify-content-center">
+
+  {% for i in pics %}
+    <div class="mx-auto">
+      <div class="card">
+        <img src="/media/{{i}}" class="card-img-top" style="width: 350px; height: auto;">
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+
+{% endblock %}
