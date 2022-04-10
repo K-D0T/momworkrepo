@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
+import os
 import random 
 from home.models import *
 
@@ -28,21 +29,20 @@ def addpics(request):
 
 
 def submitpics(request):
+
 	if request.method != 'POST':
 
 		return HttpResponseRedirect(reverse("home"))
 	else:
 		
 		form = MainForm(request.POST, request.FILES)
+		images = request.FILES.getlist('pic')
 		
-		if form.is_valid():
-			post = form.save(commit=False)
-			post.author = request.user
-			post.save()
-			return HttpResponseRedirect(reverse('home'))
-		else:
-			print("Form is invalid")
-			return HttpResponseRedirect(reverse('home'))
+		for image in images:
+			SubmitModel.objects.create(pic=image, author=request.user.username)
+
+		return HttpResponseRedirect(reverse('home'))
+
 
 def create(request):
 	if request.method != 'POST':
@@ -96,3 +96,29 @@ def createUser(request):
 		messages.error(request, "Unsuccessful registration. Invalid information.")
 	form = NewUserForm()
 	return render (request=request, template_name="createUser.html", context={"register_form":form})
+
+
+def deleteimage(request):
+
+	if request.method != 'POST':
+
+		return HttpResponseRedirect(reverse("home"))
+	else:
+		
+		image = request.POST.get("pic")
+		setup1 = SubmitModel.objects.filter(pic=image)
+		setup1.delete()
+		os.remove("/Users/Kaiden Thrailkill/Desktop/Environment/momwork/momwork/media/" + image)
+
+		return HttpResponseRedirect(reverse('home'))
+def matching(request):
+	numberofpictures = request.POST['quantity']
+	data = list(SubmitModel.objects.filter(author__icontains=request.user).values('pic'))
+	pics = []
+	
+	for i in data:
+		pics.append(i['pic'])
+	pics = random.sample(pics, int(numberofpictures))
+	match_pic = random.choice(pics)
+
+	return render(request, 'matching.html', {'pics':pics, 'match_pic':match_pic})

@@ -24,6 +24,9 @@ class MainForm(forms.ModelForm):
 			self.fields[i].widget.attrs['class'] = 'form-control m-3'
 			self.fields[i].widget.attrs['style'] = 'height:37px; width: 300px;'
 		self.fields['author'].required = False
+		self.fields['pic'].widget.attrs['multiple'] = 'multiple'
+
+		
 class NewUserForm(UserCreationForm):
 	email = forms.EmailField(required=False)
 

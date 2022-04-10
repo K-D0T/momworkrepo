@@ -20,13 +20,17 @@
     </div>
     <hr/>
     <div class="d-flex flex-wrap flex-row justify-content-center">
-
       {% for i in pics %}
-        <div class="p-3">
-          <div class="card" style="width: 18rem;">
-            <img src="/media/{{i}}" class="card-img-top">
+        <form id="" action="{% url 'deleteimage' %}" enctype='multipart/form-data' method="post">
+          {% csrf_token %}
+          <div class="p-3">
+            <div class="card" style="width: auto; height: auto;">
+              <img src="/media/{{i}}" style="height: 150px; width: auto;" class="card-img-top">
+              <input type="text" name="pic" id="pic" value="{{i}}" hidden="True">
+              <button type="signup" class="btn btn-outline-success m-3" style="font-family:courier; height: 40px; width: auto;">Delete Image</button>
+            </div>
           </div>
-        </div>
+        </form>
       {% endfor %}
     </div>
     
@@ -37,9 +41,9 @@
           <form id="MainForm" action="{% url 'submitpics' %}" enctype='multipart/form-data' method="post">
             
             {% csrf_token %}
-            <label class="m-3" for="{{ form.pic.id_for_label }}" style="font-family:courier"><b>Add Picture: </b></label>
+            <label class="m-3" for="{{ form.pic.id_for_label }}" style="font-family:courier"><b>Add Pictures: </b></label>
             {{ form.pic }}
-            <button type="signup" class="btn btn-outline-success m-3" style="font-family:courier; height: 40px; width: auto;">Add Picture</button>
+            <button type="signup" class="btn btn-outline-success m-3" style="font-family:courier; height: 40px; width: auto;">Add Pictures</button>
             
           </form>
         </div>
@@ -48,11 +52,16 @@
 
             {% csrf_token %}
 
-            <label class="m-3" for="quantity" style="font-family:courier"><b>Enter The Number Of Pictures To Be Shown: </b></label>
-            <input class="form-control m-3" style="width: 50px; height: auto;" required="True" type="number" id="quantity" name="quantity" min="1"  max="5">
-            <button type="signup" class="btn btn-outline-success m-3" style="font-family:courier; height: 40px; width: auto;">Create</button>
+            <label class="m-3" for="quantity" style="font-family:courier"><b>Enter The Number Of Pictures To Be Shown (Regular): </b></label>
+            <input class="form-control m-3" style="width: 60px; height: auto;" required="True" type="number" id="quantity" name="quantity" min="1"  max="10">
+            <button type="signup" class="btn btn-outline-success m-3" style="font-family:courier; height: 40px; width: auto;">Create Regular</button>
 
           </form>
+          <form id="MainForm" action="{% url 'matching' %}" enctype='multipart/form-data' method="post">
+            {% csrf_token %}
+            <label class="m-3" for="quantity" style="font-family:courier"><b>Enter The Number Of Pictures To Be Shown (Matching): </b></label>
+            <input class="form-control m-3" style="width: 60px; height: auto;" required="True" type="number" id="quantity" name="quantity" min="1"  max="10">
+            <button type="signup" class="btn btn-outline-success m-3" style="font-family:courier; height: 40px; width: auto;">Create Matching</button>
         </div>
       </div>
     {% endif %}

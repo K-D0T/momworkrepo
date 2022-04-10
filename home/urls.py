@@ -10,5 +10,7 @@ urlpatterns = [
     path('', views.login_request, name='login'),
     path('createUser', views.createUser, name='createUser'),
     path('logout/', views.logout_request, name='logout'),
-
+    path('deleteimage/', views.deleteimage, name='deleteimage'),
+    path('matching/', views.matching, name='matching'),
+    
     ]
